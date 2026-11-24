@@ -2,29 +2,37 @@
 from src.customer import Customer
 from src.meter import Meter
 from src.energy_bill import EnergyBill
+from src.data_loader import load_customer_data
+from src.data_validator import validate_customer
 
 
-# Create customer
-customer = Customer(
-    "C1001",
-    "John Smith",
-    "Newport"
-)
+def run_billing():
 
-# Create meter
-meter = Meter("M1001")
+    data = load_customer_data()
 
-meter.add_reading(1000)
-meter.add_reading(1250)
+    for record in data["customers"]:
 
-# Generate bill
-bill = EnergyBill(
-    customer,
-    meter,
-    0.25
-)
+        validate_customer(record)
 
-print("ENERGY BILL")
-print("--------------------")
+        customer = Customer(
+            record["customer_id"],
+            record["name"],
+            record["address"]
+        )
 
-print(bill.generate_bill())
+        meter = Meter(record["meter_id"])
+
+        meter.add_reading(record["previous_reading"])
+        meter.add_reading(record["current_reading"])
+
+        bill = EnergyBill(
+            customer,
+            meter,
+            record["unit_rate"]
+        )
+
+        print(bill.generate_bill())
+
+
+if __name__ == "__main__":
+    run_billing()
