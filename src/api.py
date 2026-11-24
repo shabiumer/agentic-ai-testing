@@ -1,3 +1,4 @@
+from src.database import init_db, save_bill
 from decimal import Decimal
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
@@ -34,7 +35,18 @@ def create_bill(request: BillRequest):
         Decimal(consumption) * request.unit_rate
     ).quantize(Decimal("0.01"))
 
+    init_db()
+
+    bill_id = save_bill(
+        customer_id=request.customer_id,
+        previous_reading=request.previous_reading,
+        current_reading=request.current_reading,
+        unit_rate=request.unit_rate,
+        total_bill=total
+    )
+
     return {
+        "bill_id": bill_id,
         "customer_id": request.customer_id,
         "consumption_kwh": consumption,
         "unit_rate": str(request.unit_rate),
