@@ -1,5 +1,7 @@
 import os
+import json
 
+from src.ai_output_validator import validate_ai_output
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -44,4 +46,14 @@ response = client.responses.create(
 
 print("\nAI Requirement Analysis")
 print("======================")
-print(response.output_text)
+
+ai_output = json.loads(response.output_text)
+
+validate_ai_output(ai_output)
+
+print("AI output validation: PASSED")
+print(f"Business rules: {len(ai_output['business_rules'])}")
+print(f"Positive tests: {len(ai_output['positive_tests'])}")
+print(f"Negative tests: {len(ai_output['negative_tests'])}")
+print(f"Boundary tests: {len(ai_output['boundary_tests'])}")
+print("All test cases have valid structure and unique IDs.")
