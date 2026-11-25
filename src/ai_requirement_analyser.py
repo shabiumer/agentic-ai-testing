@@ -1,5 +1,6 @@
 import os
 
+from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -17,27 +18,28 @@ readings multiplied by the unit rate.
 The system must reject negative readings and must not accept
 a current reading lower than the previous reading.
 """
+project_root = Path(__file__).resolve().parent.parent
 
-prompt = f"""
-You are a software testing analyst.
+prompt_file = project_root / "prompts" / "requirement_prompt.txt"
 
-Analyse the following energy billing requirement.
+with prompt_file.open("r", encoding="utf-8") as file:
+    prompt_template = file.read()
 
-Identify:
-1. The main business rules.
-2. Positive test scenarios.
-3. Negative test scenarios.
-4. Boundary test scenarios.
+prompt = prompt_template + f"""
 
 Requirement:
 {requirement}
-
-Explain your findings clearly using numbered lists.
 """
+
 
 response = client.responses.create(
     model=model,
-    input=prompt
+    input=prompt,
+    text={
+        "format": {
+            "type": "json_object"
+        }
+    }
 )
 
 print("\nAI Requirement Analysis")
