@@ -45,3 +45,49 @@ JSON structure:
   "boundary_tests": [],
   "unclear_requirements": []
 }
+
+Requirement traceability instructions:
+
+1. Give every business rule a unique ID:
+   BR-001, BR-002, BR-003, etc.
+
+2. Return business rules as objects containing:
+   - rule_id
+   - description
+
+3. For every test case, include:
+   - requirement_ids
+
+4. requirement_ids must contain the IDs of the
+   business rules covered by that test case.
+
+5. Only use business rule IDs that exist in
+   the business_rules section.
+
+6. Every business rule must be covered by
+   at least one test case if possible.
+
+7. Do not claim a rule is covered unless a
+   test case actually tests it.
+
+{
+  "business_rules": [
+    {
+      "rule_id": "BR-001",
+      "description": "Business rule description"
+    }
+  ],
+  "positive_tests": [],
+  "negative_tests": [],
+  "boundary_tests": [],
+  "unclear_requirements": []
+}
+
+Every test case must contain:
+- test_case_id
+- test_scenario
+- test_type
+- requirement_ids
+- test_input
+- expected_result
+

@@ -5,6 +5,8 @@ from src.ai_output_validator import validate_ai_output
 from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
+from src.traceability import build_traceability_matrix
+
 
 load_dotenv()
 
@@ -48,8 +50,19 @@ print("\nAI Requirement Analysis")
 print("======================")
 
 ai_output = json.loads(response.output_text)
+print(json.dumps(ai_output, indent=4))
 
 validate_ai_output(ai_output)
+
+matrix = build_traceability_matrix(ai_output)
+
+print("\nRequirement Traceability Matrix")
+print("================================")
+
+for rule_id, details in matrix.items():
+    print(f"\n{rule_id}: {details['description']}")
+    print(f"Test cases: {details['test_cases']}")
+    print(f"Coverage: {details['coverage']}")
 
 print("AI output validation: PASSED")
 print(f"Business rules: {len(ai_output['business_rules'])}")
