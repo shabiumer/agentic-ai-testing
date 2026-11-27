@@ -6,7 +6,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 from src.traceability import build_traceability_matrix
-
+from src.test_case_quality import (
+    assess_test_case_quality,
+    find_duplicate_test_cases,
+    validate_requirement_links
+)
 
 load_dotenv()
 
@@ -55,6 +59,67 @@ print(json.dumps(ai_output, indent=4))
 validate_ai_output(ai_output)
 
 matrix = build_traceability_matrix(ai_output)
+
+
+# Collect all AI-generated test cases
+all_tests = (
+    ai_output["positive_tests"]
+    + ai_output["negative_tests"]
+    + ai_output["boundary_tests"]
+)
+
+# Identify duplicate test cases
+duplicates = find_duplicate_test_cases(all_tests)
+
+# Get valid business rule IDs
+valid_requirement_ids = [
+    rule["rule_id"]
+    for rule in ai_output["business_rules"]
+]
+
+print("\nAI Test Case Quality Report")
+print("===========================")
+
+passed_count = 0
+rejected_count = 0
+
+for test_case in all_tests:
+
+    # Check general test case quality
+    quality = assess_test_case_quality(test_case)
+
+    # Check requirement links
+    link_result = validate_requirement_links(
+        test_case,
+        valid_requirement_ids
+    )
+
+    issues = quality["issues"] + link_result["issues"]
+
+    # Check duplicates
+    if test_case["test_case_id"] in duplicates:
+        issues.append("Duplicate test case detected")
+
+    status = "Passed" if not issues else "Rejected"
+
+    if status == "Passed":
+        passed_count += 1
+    else:
+        rejected_count += 1
+
+    print(f"\nTest ID: {test_case['test_case_id']}")
+    print(f"Status: {status}")
+
+    if issues:
+        for issue in issues:
+            print(f"Issue: {issue}")
+
+print("\nQuality Assessment Summary")
+print("==========================")
+print(f"Total test cases: {len(all_tests)}")
+print(f"Passed: {passed_count}")
+print(f"Rejected: {rejected_count}")
+
 
 print("\nRequirement Traceability Matrix")
 print("================================")
