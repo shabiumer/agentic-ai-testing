@@ -1,0 +1,203 @@
+{
+    "test_data": [
+        {
+            "test_data_id": "TD-001",
+            "test_case_id": "TC-001",
+            "description": "Typical domestic electricity billing example with standard consumption and a normal tariff.",
+            "data": {
+                "previous_meter_reading": 1250,
+                "current_meter_reading": 1300,
+                "unit_rate": 0.25
+            },
+            "data_type": "Positive",
+            "purpose": "Verify standard bill calculation for a valid consumption case of 50 units resulting in a bill of 12.50."
+        },
+        {
+            "test_data_id": "TD-002",
+            "test_case_id": "TC-001",
+            "description": "Alternative valid billing example with higher but realistic usage and the same standard unit rate.",
+            "data": {
+                "previous_meter_reading": 8420,
+                "current_meter_reading": 8565,
+                "unit_rate": 0.25
+            },
+            "data_type": "Positive",
+            "purpose": "Confirm the system calculates a larger but valid consumption value of 145 units and bills correctly at the standard rate."
+        },
+        {
+            "test_data_id": "TD-003",
+            "test_case_id": "TC-002",
+            "description": "Boundary case where no energy was consumed during the billing period.",
+            "data": {
+                "previous_meter_reading": 1500,
+                "current_meter_reading": 1500,
+                "unit_rate": 0.25
+            },
+            "data_type": "Boundary",
+            "purpose": "Verify zero consumption is accepted and results in a zero bill amount."
+        },
+        {
+            "test_data_id": "TD-004",
+            "test_case_id": "TC-002",
+            "description": "Boundary example with a zero-consumption account at a different realistic meter position and tariff.",
+            "data": {
+                "previous_meter_reading": 9999,
+                "current_meter_reading": 9999,
+                "unit_rate": 0.3
+            },
+            "data_type": "Boundary",
+            "purpose": "Check the system consistently handles equal readings at a different meter value and tariff without charging usage."
+        },
+        {
+            "test_data_id": "TD-005",
+            "test_case_id": "TC-003",
+            "description": "Invalid input with negative previous meter reading while the remaining values are otherwise valid.",
+            "data": {
+                "previous_meter_reading": -1,
+                "current_meter_reading": 1000,
+                "unit_rate": 0.25
+            },
+            "data_type": "Negative",
+            "purpose": "Verify the system rejects negative meter readings when the previous reading is below zero."
+        },
+        {
+            "test_data_id": "TD-006",
+            "test_case_id": "TC-003",
+            "description": "Invalid input using a large negative previous meter reading to confirm validation is not limited to small negative values.",
+            "data": {
+                "previous_meter_reading": -250,
+                "current_meter_reading": 1500,
+                "unit_rate": 0.25
+            },
+            "data_type": "Negative",
+            "purpose": "Ensure the system rejects any negative previous meter reading, including larger negative values."
+        },
+        {
+            "test_data_id": "TD-007",
+            "test_case_id": "TC-004",
+            "description": "Invalid input with a negative current meter reading while the previous reading is valid.",
+            "data": {
+                "previous_meter_reading": 1000,
+                "current_meter_reading": -5,
+                "unit_rate": 0.25
+            },
+            "data_type": "Negative",
+            "purpose": "Verify the system rejects negative current meter readings."
+        },
+        {
+            "test_data_id": "TD-008",
+            "test_case_id": "TC-004",
+            "description": "Invalid input with a negative current meter reading at a more extreme value.",
+            "data": {
+                "previous_meter_reading": 5600,
+                "current_meter_reading": -100,
+                "unit_rate": 0.25
+            },
+            "data_type": "Negative",
+            "purpose": "Confirm the system consistently rejects negative current readings regardless of the magnitude."
+        },
+        {
+            "test_data_id": "TD-009",
+            "test_case_id": "TC-005",
+            "description": "Invalid case where the current meter reading is lower than the previous meter reading by 1 unit.",
+            "data": {
+                "previous_meter_reading": 1300,
+                "current_meter_reading": 1299,
+                "unit_rate": 0.25
+            },
+            "data_type": "Negative",
+            "purpose": "Verify the system rejects decreasing meter readings, including the smallest invalid difference."
+        },
+        {
+            "test_data_id": "TD-010",
+            "test_case_id": "TC-005",
+            "description": "Invalid case with a larger decrease between previous and current readings to confirm the same validation rule applies.",
+            "data": {
+                "previous_meter_reading": 2500,
+                "current_meter_reading": 2400,
+                "unit_rate": 0.25
+            },
+            "data_type": "Negative",
+            "purpose": "Ensure the system rejects any current reading lower than the previous reading, not just by one unit."
+        },
+        {
+            "test_data_id": "TD-011",
+            "test_case_id": "TC-006",
+            "description": "Boundary case where the current meter reading equals the previous reading at a low valid meter value.",
+            "data": {
+                "previous_meter_reading": 500,
+                "current_meter_reading": 500,
+                "unit_rate": 0.3
+            },
+            "data_type": "Boundary",
+            "purpose": "Confirm the system accepts equal readings as valid and calculates zero consumption."
+        },
+        {
+            "test_data_id": "TD-012",
+            "test_case_id": "TC-006",
+            "description": "Boundary case with equal readings at a higher meter value and a different tariff.",
+            "data": {
+                "previous_meter_reading": 6789,
+                "current_meter_reading": 6789,
+                "unit_rate": 0.3
+            },
+            "data_type": "Boundary",
+            "purpose": "Check that equality validation works consistently across different meter values and rate inputs."
+        },
+        {
+            "test_data_id": "TD-013",
+            "test_case_id": "TC-007",
+            "description": "Valid billing example using a decimal unit rate and small non-zero consumption.",
+            "data": {
+                "previous_meter_reading": 2000,
+                "current_meter_reading": 2012,
+                "unit_rate": 0.1875
+            },
+            "data_type": "Positive",
+            "purpose": "Verify the system handles fractional tariffs correctly and calculates bill amount for 12 units of usage."
+        },
+        {
+            "test_data_id": "TD-014",
+            "test_case_id": "TC-007",
+            "description": "Valid billing example with decimal tariff and a realistic moderate consumption amount.",
+            "data": {
+                "previous_meter_reading": 4500,
+                "current_meter_reading": 4587,
+                "unit_rate": 0.1875
+            },
+            "data_type": "Positive",
+            "purpose": "Confirm decimal rate multiplication remains accurate for a larger valid consumption of 87 units."
+        },
+        {
+            "test_data_id": "TD-015",
+            "test_case_id": "TC-008",
+            "description": "Boundary-negative case where the current reading is lower than the previous reading by exactly 1 unit.",
+            "data": {
+                "previous_meter_reading": 100,
+                "current_meter_reading": 99,
+                "unit_rate": 0.25
+            },
+            "data_type": "Boundary",
+            "purpose": "Validate rejection at the minimum possible invalid difference."
+        },
+        {
+            "test_data_id": "TD-016",
+            "test_case_id": "TC-008",
+            "description": "Boundary-negative case where the current reading is lower than the previous reading by exactly 1 unit at a higher meter value.",
+            "data": {
+                "previous_meter_reading": 780,
+                "current_meter_reading": 779,
+                "unit_rate": 0.25
+            },
+            "data_type": "Boundary",
+            "purpose": "Ensure the same one-unit decrease validation is applied consistently regardless of the absolute meter value."
+        }
+    ],
+    "unclear_requirements": [
+        "The business rules do not specify whether meter readings must be whole numbers only or whether decimal readings are allowed.",
+        "The business rules do not specify the exact validation message text to be displayed for rejected readings.",
+        "The business rules do not specify whether the system should prevent entry of a negative unit rate or zero unit rate.",
+        "The business rules do not specify rounding rules or number of decimal places for bill amounts.",
+        "The business rules do not specify whether the system should validate missing/blank readings."
+    ]
+}

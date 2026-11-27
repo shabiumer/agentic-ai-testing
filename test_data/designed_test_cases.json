@@ -2,166 +2,192 @@
     "test_cases": [
         {
             "test_case_id": "TC-001",
-            "test_scenario": "Calculate bill using valid previous and current meter readings",
+            "test_scenario": "Calculate bill using valid previous and current meter readings with a standard unit rate",
             "test_type": "Positive",
             "requirement_ids": [
                 "BR-001"
             ],
             "priority": "High",
             "test_input": {
-                "previous_meter_reading": 1200,
+                "previous_meter_reading": 1250,
                 "current_meter_reading": 1350,
                 "unit_rate": 0.25
             },
             "test_steps": [
-                "Open the bill calculation screen or service.",
-                "Enter previous meter reading as 1200.",
+                "Open the billing calculation screen.",
+                "Enter previous meter reading as 1250.",
                 "Enter current meter reading as 1350.",
                 "Enter unit rate as 0.25.",
-                "Submit the calculation request."
+                "Submit the bill calculation."
             ],
-            "expected_result": "The system calculates usage as 150 units and the bill amount as 37.50 using (1350 - 1200) x 0.25. The bill is accepted and returned successfully."
+            "expected_result": "The system calculates consumption as 100 units and bill amount as 25.00 (100 x 0.25). The bill is accepted and displayed successfully."
         },
         {
             "test_case_id": "TC-002",
-            "test_scenario": "Calculate bill using zero consumption when previous and current readings are equal",
-            "test_type": "Boundary",
-            "requirement_ids": [
-                "BR-001"
-            ],
-            "priority": "Medium",
-            "test_input": {
-                "previous_meter_reading": 1500,
-                "current_meter_reading": 1500,
-                "unit_rate": 0.3
-            },
-            "test_steps": [
-                "Open the bill calculation screen or service.",
-                "Enter previous meter reading as 1500.",
-                "Enter current meter reading as 1500.",
-                "Enter unit rate as 0.30.",
-                "Submit the calculation request."
-            ],
-            "expected_result": "The system calculates usage as 0 units and the bill amount as 0.00 using (1500 - 1500) x 0.30. The bill is accepted and returned successfully."
-        },
-        {
-            "test_case_id": "TC-003",
-            "test_scenario": "Reject a negative previous meter reading",
-            "test_type": "Negative",
-            "requirement_ids": [
-                "BR-002"
-            ],
-            "priority": "High",
-            "test_input": {
-                "previous_meter_reading": -1,
-                "current_meter_reading": 1350,
-                "unit_rate": 0.25
-            },
-            "test_steps": [
-                "Open the bill calculation screen or service.",
-                "Enter previous meter reading as -1.",
-                "Enter current meter reading as 1350.",
-                "Enter unit rate as 0.25.",
-                "Submit the calculation request."
-            ],
-            "expected_result": "The system rejects the request because the previous meter reading is negative. No bill is calculated and an error message is displayed."
-        },
-        {
-            "test_case_id": "TC-004",
-            "test_scenario": "Reject a negative current meter reading",
-            "test_type": "Negative",
-            "requirement_ids": [
-                "BR-002"
-            ],
-            "priority": "High",
-            "test_input": {
-                "previous_meter_reading": 1200,
-                "current_meter_reading": -5,
-                "unit_rate": 0.25
-            },
-            "test_steps": [
-                "Open the bill calculation screen or service.",
-                "Enter previous meter reading as 1200.",
-                "Enter current meter reading as -5.",
-                "Enter unit rate as 0.25.",
-                "Submit the calculation request."
-            ],
-            "expected_result": "The system rejects the request because the current meter reading is negative. No bill is calculated and an error message is displayed."
-        },
-        {
-            "test_case_id": "TC-005",
-            "test_scenario": "Reject when current meter reading is lower than previous meter reading",
-            "test_type": "Negative",
-            "requirement_ids": [
-                "BR-003"
-            ],
-            "priority": "High",
-            "test_input": {
-                "previous_meter_reading": 1350,
-                "current_meter_reading": 1200,
-                "unit_rate": 0.25
-            },
-            "test_steps": [
-                "Open the bill calculation screen or service.",
-                "Enter previous meter reading as 1350.",
-                "Enter current meter reading as 1200.",
-                "Enter unit rate as 0.25.",
-                "Submit the calculation request."
-            ],
-            "expected_result": "The system rejects the request because the current meter reading is lower than the previous meter reading. No bill is calculated and an error message is displayed."
-        },
-        {
-            "test_case_id": "TC-006",
-            "test_scenario": "Accept minimum valid meter readings at zero and calculate zero bill",
-            "test_type": "Boundary",
-            "requirement_ids": [
-                "BR-001",
-                "BR-002",
-                "BR-003"
-            ],
-            "priority": "Medium",
-            "test_input": {
-                "previous_meter_reading": 0,
-                "current_meter_reading": 0,
-                "unit_rate": 0.25
-            },
-            "test_steps": [
-                "Open the bill calculation screen or service.",
-                "Enter previous meter reading as 0.",
-                "Enter current meter reading as 0.",
-                "Enter unit rate as 0.25.",
-                "Submit the calculation request."
-            ],
-            "expected_result": "The system accepts both readings because they are not negative and the current reading is not lower than the previous reading. Usage is 0 units and the bill amount is 0.00."
-        },
-        {
-            "test_case_id": "TC-007",
-            "test_scenario": "Calculate bill with decimal unit rate and valid readings",
+            "test_scenario": "Calculate bill using decimal unit rate with valid readings",
             "test_type": "Positive",
             "requirement_ids": [
                 "BR-001"
             ],
-            "priority": "Medium",
+            "priority": "High",
             "test_input": {
-                "previous_meter_reading": 2500,
-                "current_meter_reading": 2750,
+                "previous_meter_reading": 5000,
+                "current_meter_reading": 5125,
                 "unit_rate": 0.1875
             },
             "test_steps": [
-                "Open the bill calculation screen or service.",
-                "Enter previous meter reading as 2500.",
-                "Enter current meter reading as 2750.",
+                "Open the billing calculation screen.",
+                "Enter previous meter reading as 5000.",
+                "Enter current meter reading as 5125.",
                 "Enter unit rate as 0.1875.",
-                "Submit the calculation request."
+                "Submit the bill calculation."
             ],
-            "expected_result": "The system calculates usage as 250 units and the bill amount as 46.8750 using (2750 - 2500) x 0.1875. The bill is accepted and returned successfully."
+            "expected_result": "The system calculates consumption as 125 units and bill amount as 23.4375 (125 x 0.1875). The bill is accepted and displayed successfully."
+        },
+        {
+            "test_case_id": "TC-003",
+            "test_scenario": "Reject negative previous meter reading",
+            "test_type": "Negative",
+            "requirement_ids": [
+                "BR-002"
+            ],
+            "priority": "High",
+            "test_input": {
+                "previous_meter_reading": -10,
+                "current_meter_reading": 100,
+                "unit_rate": 0.25
+            },
+            "test_steps": [
+                "Open the billing calculation screen.",
+                "Enter previous meter reading as -10.",
+                "Enter current meter reading as 100.",
+                "Enter unit rate as 0.25.",
+                "Submit the bill calculation."
+            ],
+            "expected_result": "The system rejects the input because the previous meter reading is negative. An error message is displayed and no bill is calculated."
+        },
+        {
+            "test_case_id": "TC-004",
+            "test_scenario": "Reject negative current meter reading",
+            "test_type": "Negative",
+            "requirement_ids": [
+                "BR-002"
+            ],
+            "priority": "High",
+            "test_input": {
+                "previous_meter_reading": 1000,
+                "current_meter_reading": -1,
+                "unit_rate": 0.25
+            },
+            "test_steps": [
+                "Open the billing calculation screen.",
+                "Enter previous meter reading as 1000.",
+                "Enter current meter reading as -1.",
+                "Enter unit rate as 0.25.",
+                "Submit the bill calculation."
+            ],
+            "expected_result": "The system rejects the input because the current meter reading is negative. An error message is displayed and no bill is calculated."
+        },
+        {
+            "test_case_id": "TC-005",
+            "test_scenario": "Reject current meter reading lower than previous meter reading",
+            "test_type": "Negative",
+            "requirement_ids": [
+                "BR-003"
+            ],
+            "priority": "High",
+            "test_input": {
+                "previous_meter_reading": 1500,
+                "current_meter_reading": 1499,
+                "unit_rate": 0.25
+            },
+            "test_steps": [
+                "Open the billing calculation screen.",
+                "Enter previous meter reading as 1500.",
+                "Enter current meter reading as 1499.",
+                "Enter unit rate as 0.25.",
+                "Submit the bill calculation."
+            ],
+            "expected_result": "The system rejects the input because the current meter reading is lower than the previous meter reading. An error message is displayed and no bill is calculated."
+        },
+        {
+            "test_case_id": "TC-006",
+            "test_scenario": "Allow zero consumption when current reading equals previous reading",
+            "test_type": "Boundary",
+            "requirement_ids": [
+                "BR-001",
+                "BR-003"
+            ],
+            "priority": "Medium",
+            "test_input": {
+                "previous_meter_reading": 2000,
+                "current_meter_reading": 2000,
+                "unit_rate": 0.25
+            },
+            "test_steps": [
+                "Open the billing calculation screen.",
+                "Enter previous meter reading as 2000.",
+                "Enter current meter reading as 2000.",
+                "Enter unit rate as 0.25.",
+                "Submit the bill calculation."
+            ],
+            "expected_result": "The system accepts the input because the current reading is not lower than the previous reading. Consumption is 0 units and bill amount is 0.00."
+        },
+        {
+            "test_case_id": "TC-007",
+            "test_scenario": "Calculate bill when readings differ by one unit",
+            "test_type": "Boundary",
+            "requirement_ids": [
+                "BR-001"
+            ],
+            "priority": "Medium",
+            "test_input": {
+                "previous_meter_reading": 999,
+                "current_meter_reading": 1000,
+                "unit_rate": 0.25
+            },
+            "test_steps": [
+                "Open the billing calculation screen.",
+                "Enter previous meter reading as 999.",
+                "Enter current meter reading as 1000.",
+                "Enter unit rate as 0.25.",
+                "Submit the bill calculation."
+            ],
+            "expected_result": "The system calculates consumption as 1 unit and bill amount as 0.25 (1 x 0.25). The bill is accepted and displayed successfully."
+        },
+        {
+            "test_case_id": "TC-008",
+            "test_scenario": "Reject both meter readings as negative values",
+            "test_type": "Negative",
+            "requirement_ids": [
+                "BR-002"
+            ],
+            "priority": "High",
+            "test_input": {
+                "previous_meter_reading": -5,
+                "current_meter_reading": -1,
+                "unit_rate": 0.25
+            },
+            "test_steps": [
+                "Open the billing calculation screen.",
+                "Enter previous meter reading as -5.",
+                "Enter current meter reading as -1.",
+                "Enter unit rate as 0.25.",
+                "Submit the bill calculation."
+            ],
+            "expected_result": "The system rejects the input because meter readings are negative. An error message is displayed and no bill is calculated."
         }
     ],
     "unclear_requirements": [
-        "The business rules do not specify whether non-integer meter readings are allowed.",
-        "The business rules do not specify the required validation behavior for blank or null meter readings.",
-        "The business rules do not specify whether the unit rate can be zero or negative.",
-        "The business rules do not specify rounding rules for bill amounts beyond exact decimal calculation.",
-        "The business rules do not specify the exact error message text for validation failures."
+        {
+            "rule_id": "BR-001",
+            "issue": "The business rule does not specify whether the bill amount should be rounded to a specific number of decimal places when the unit rate produces a fractional result.",
+            "impact": "Exact display and storage format for calculated bill amounts is unclear."
+        },
+        {
+            "rule_id": "BR-001",
+            "issue": "The business rule does not specify whether validation should occur before or after calculation when invalid meter readings are entered.",
+            "impact": "Error handling flow is not fully defined."
+        }
     ]
 }
