@@ -54,9 +54,39 @@ print("\nAI Requirement Analysis")
 print("======================")
 
 ai_output = json.loads(response.output_text)
+# Save business rules for the Test Design Agent
+import json
+from pathlib import Path
+
+project_root = Path(__file__).resolve().parent.parent
+output_file = project_root / "test_data" / "business_rules.json"
+
+with output_file.open("w", encoding="utf-8") as file:
+    json.dump(
+        ai_output["business_rules"],
+        file,
+        indent=4
+    )
+
+print("\nBusiness rules saved successfully.")
 print(json.dumps(ai_output, indent=4))
 
 validate_ai_output(ai_output)
+# Save business rules for the Test Design Agent
+import json
+from pathlib import Path
+
+project_root = Path(__file__).resolve().parent.parent
+output_file = project_root / "test_data" / "business_rules.json"
+
+with output_file.open("w", encoding="utf-8") as file:
+    json.dump(
+        ai_output["business_rules"],
+        file,
+        indent=4
+    )
+
+print("\nBusiness rules saved successfully.")
 
 matrix = build_traceability_matrix(ai_output)
 

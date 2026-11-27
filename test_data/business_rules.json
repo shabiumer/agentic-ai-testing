@@ -1,0 +1,14 @@
+[
+    {
+        "rule_id": "BR-001",
+        "description": "The system must calculate a customer's bill using the difference between the previous and current meter readings multiplied by the unit rate."
+    },
+    {
+        "rule_id": "BR-002",
+        "description": "The system must reject negative meter readings."
+    },
+    {
+        "rule_id": "BR-003",
+        "description": "The system must not accept a current meter reading that is lower than the previous meter reading."
+    }
+]
