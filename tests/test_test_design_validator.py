@@ -105,3 +105,28 @@ def test_unknown_requirement_id():
     assert result["status"] == "Rejected"
     assert any("Unknown requirement BR-999" in issue
                for issue in result["issues"])
+
+def test_conditional_expected_result():
+    test_case = create_test_case()
+
+    test_case["expected_result"] = (
+        "The system calculates zero consumption, "
+        "provided equal readings are accepted."
+    )
+
+    output = {
+        "test_cases": [test_case],
+        "unclear_requirements": [
+            "Whether equal readings are accepted is unclear."
+        ]
+    }
+
+    result = validate_designed_test_cases(
+        output, VALID_REQUIREMENT_IDS
+    )
+
+    assert result["status"] == "Rejected"
+    assert any(
+        "conditional behaviour" in issue
+        for issue in result["issues"]
+    )

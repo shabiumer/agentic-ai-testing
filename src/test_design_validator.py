@@ -64,6 +64,29 @@ def validate_designed_test_cases(output, valid_requirement_ids):
         if not test_case["expected_result"].strip():
             issues.append(f"{test_id}: Empty expected result")
 
+        # Check for conditional expected results
+        conditional_phrases = [
+            "provided",
+            "assuming",
+            "depending on",
+            "subject to",
+            "if permitted",
+            "if allowed",
+            "if accepted",
+            "unless"
+        ]
+
+        expected_result = test_case["expected_result"].lower()
+
+        if any(
+            phrase in expected_result
+            for phrase in conditional_phrases
+        ):
+            issues.append(
+                f"{test_id}: Expected result contains conditional "
+                "behaviour that requires requirement clarification"
+            )
+
     return {
         "status": "Passed" if not issues else "Rejected",
         "total_test_cases": len(test_cases),
